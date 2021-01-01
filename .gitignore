@@ -134,5 +134,9 @@ node_modules/
 # Serverless
 .serverless/
 
-# Serverless
+# IDEA
 .idea/
+
+# React Client
+web/http/app/.idea/
+web/http/app/node_modules

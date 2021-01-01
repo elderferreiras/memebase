@@ -26,7 +26,11 @@ provider:
 
 functions:
   app:
-    handler: wsgi.handler
+    handler: wsgi_handler.handler
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+    getMemes:
+      handler: wsgi_handler.handler
+      events:
+        - http: 'GET /search/{proxy+}'
