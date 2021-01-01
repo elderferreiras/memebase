@@ -1,2 +1,0 @@
-# memebase
-Meme database
