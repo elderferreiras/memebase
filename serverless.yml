@@ -14,7 +14,7 @@ custom:
     packRequirements: falsepyproject.toml
   pythonRequirements:
     dockerizePip: non-linux
-    usePoetry: false
+    usePipenv: false
 
 provider:
   name: aws
