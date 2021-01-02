@@ -1,16 +1,22 @@
 # app.py
 
 from flask import Flask, jsonify, request, render_template
-app = Flask(__name__)
+from flask_cors import CORS
+
+from login import login_page
+
+app = Flask(__name__, template_folder='templates/build/', static_folder='templates/build/static')
+app.register_blueprint(login_page, url_prefix='/login')
+CORS(app)
 
 
-@app.route("/")
-def index():
-    return render_template('page.html')
+@app.route('/')
+def search_index():
+    return render_template('index.html')
 
 
-@app.route("/search", methods=['GET'])
-def search():
+@app.route("/get_results", methods=['GET'])
+def get_results():
     search_query = request.args.get('q', '')
 
     return jsonify({

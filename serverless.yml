@@ -30,7 +30,9 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
-    getMemes:
-      handler: wsgi_handler.handler
-      events:
-        - http: 'GET /search/{proxy+}'
+
+package:
+  exclude:
+    - node_modules/**
+    - web/**
+    - .git/**
