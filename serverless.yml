@@ -7,6 +7,8 @@ service: serverless-flask
 plugins:
   - serverless-python-requirements
   - serverless-wsgi
+  - serverless-domain-manager
+  - serverless-dotenv-plugin
 
 custom:
   wsgi:
@@ -15,6 +17,11 @@ custom:
   pythonRequirements:
     dockerizePip: non-linux
     usePipenv: false
+  customDomain:
+    domainName: memebase.elderf.com
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true
 
 provider:
   name: aws

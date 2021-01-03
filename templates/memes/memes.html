@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+</head>
+<body>
+<table class="display">
+    <thead>
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>URL</th>
+        </tr>
+    </thead>
+     <tfoot>
+            <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>URL</th>
+            </tr>
+        </tfoot>
+</table>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+<script>
+    /* Formatting function for row details - modify as you need */
+function format ( d, row, tr ) {
+     $.get( "get_words", function( result ) {
+         var result = result.data
+         var words = []
+         $(result).each(function( index ) {
+             words.push(result[index].word)
+        });
+        var content = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        '<tr>'+
+            '<td>words:</td>'+
+            '<td>' + words.join(',')+ '</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Meme:</td>'+
+            '<td><img src="' + d.url + '" height="150"/></td>'+
+        '</tr>'+
+    '</table>'
+        row.child(content).show();
+        tr.addClass('shown');
+    });
+}
+
+    $(document).ready(function() {
+        var table = $('table').DataTable( {
+        "ajax": "/get_memes",
+        "columns": [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": '>'
+            },
+            { "data": "id" },
+            { "data": "title" },
+            { "data": "url" },
+        ],
+        "order": [[1, 'asc']]
+    } );
+
+     $('table tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            var d = row.data()
+            // Open this row
+            format(d, row, tr)
+        }
+    } );
+    })
+</script>
+</body>
+</html>

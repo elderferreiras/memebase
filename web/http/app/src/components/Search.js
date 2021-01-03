@@ -5,17 +5,22 @@ import { useLocation } from "react-router-dom";
 
 
 const Search = (props) => {
-  const { q = '' } = queryString.parse(useLocation().search);
-  const [query, setQuery] = useState(q)
+  const { q } = queryString.parse(useLocation().search);
+  const [query, setQuery] = useState(q);
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    axios.get(`/get_results`)
+    axios.get(`/get_results`,{
+      params: {
+        q: query
+      }
+    })
       .then(res => {
-        const results = res.data;
+        const {results} = res.data;
         setResults(results);
       })
-  }, []);
+  }, [query]);
+
 
   return (
     <div id="page-top">
@@ -51,7 +56,6 @@ const Search = (props) => {
                            onChange={({ target }) => setQuery(target.value)}
                            data-validation-required-message="Please enter a term to search."
                     />
-                    <p className="help-block text-danger"/>
                   </div>
                 </div>
               </form>
@@ -63,16 +67,20 @@ const Search = (props) => {
             <div className="divider-custom-line"/>
           </div>
           <div className="row justify-content-center">
-            {[1, 2, 3, 4, 5, 6].map((value) => (
-              <div className="col-md-6 col-lg-4 mb-5" key={value}>
-                <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
-                  <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                    <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x"/></div>
+            {results.length ? results.map(({ id, url, title }) => {
+              const imgUrl = `https://memebase-elderf-com.s3-us-west-2.amazonaws.com/prod/${url}`;
+
+              return (
+                <div className="col-md-6 col-lg-4 mb-5" key={id}>
+                  <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
+                    <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                      <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x"/></div>
+                    </div>
+                    <img className="img-fluid" src={imgUrl} alt={title} />
                   </div>
-                  <img className="img-fluid" src="https://picsum.photos/350/200" alt="" />
                 </div>
-              </div>
-            ))}
+              )
+            }) : <p>No results founds.</p>}
           </div>
         </div>
       </section>
