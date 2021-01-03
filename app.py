@@ -78,7 +78,10 @@ class Word(db.Model):
 
 @app.route('/')
 def search_index():
-    return render_template('search/build/index.html')
+    initial_context = {
+        'env': environ.get("FLASK_ENV")
+    }
+    return render_template('search/build/index.html', initial_context=initial_context)
 
 
 @app.route("/get_results", methods=['GET'])

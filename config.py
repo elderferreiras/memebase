@@ -17,7 +17,7 @@ class Config:
     }
 
     # Database
-    SQLALCHEMY_DATABASE_URI = f'postgresql://{environ.get("DB_USER")}:{environ.get("DB_PASSWORD")}@{environ.get("DB_HOST")}:{environ.get("DB_PORT")}/{environ.get("DB_NAME")}'
+    SQLALCHEMY_DATABASE_URI = f'postgresql://{environ.get("DB_USER")}:{environ.get("DB_PASSWORD")}@{environ.get("DB_HOST")}:{environ.get("DB_PORT")}/{environ.get("DB_NAME")}' if environ.get("FLASK_ENV") == 'prod' else f'postgresql://{environ.get("DB_DEV_USER")}:{environ.get("DB_DEV_PASSWORD")}@{environ.get("DB_DEV_HOST")}:{environ.get("DB_DEV_PORT")}/{environ.get("DB_DEV_NAME")}'
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

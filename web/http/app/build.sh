@@ -13,7 +13,7 @@
 
     echo "Building..."
     yarn build;
-    # node contextLoader.js
+    node contextLoader.js
     cp -R build ../../../templates/search;
     rm -rf build;
 

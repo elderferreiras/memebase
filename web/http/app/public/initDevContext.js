@@ -1,0 +1,3 @@
+window.Memebase = {
+  env: 'dev',
+};

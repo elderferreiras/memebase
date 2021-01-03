@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Memebase",
+  "name": "Memebase - A meme database",
   "icons": [
     {
       "src": "favicon.ico",
