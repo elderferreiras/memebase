@@ -83,7 +83,7 @@ def search_index():
 
 @app.route("/get_results", methods=['GET'])
 def get_results():
-    search_query = request.args.get('q', '')
+    search_query = request.args.get('q', '').lower()
 
     if search_query == '':
         results = db.session.query(Meme).order_by(func.random()).limit(6).all()
