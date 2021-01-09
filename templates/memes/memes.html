@@ -40,7 +40,7 @@
 <script>
     /* Formatting function for row details - modify as you need */
 function format ( d, row, tr ) {
-     $.get( "get_words", function( result ) {
+     $.get( "/get_words/id/" + d.id, function( result ) {
          var result = result.data
          var words = []
          $(result).each(function( index ) {
@@ -53,7 +53,7 @@ function format ( d, row, tr ) {
         '</tr>'+
         '<tr>'+
             '<td>Meme:</td>'+
-            '<td><img src="' + d.url + '" height="150"/></td>'+
+            '<td><img src="{{ data.url }}/{{ data.env }}/' + d.url + '" height="150"/></td>'+
         '</tr>'+
     '</table>'
         row.child(content).show();

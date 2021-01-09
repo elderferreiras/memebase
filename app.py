@@ -106,10 +106,14 @@ def get_results():
     }), 200
 
 
-@app.route('/memes')
+@app.route('/memes/index')
 @login_required
 def memes_index():
-    return render_template('memes/memes.html')
+    data = {
+        'env': environ.get("FLASK_ENV"),
+        'url': environ.get('S3_URL'),
+    }
+    return render_template('memes/memes.html', data=data)
 
 
 @app.route('/memes/create', methods=['GET', 'POST'])
@@ -185,11 +189,11 @@ def get_memes():
     return jsonify(response), 200
 
 
-@app.route('/get_words')
+@app.route('/get_words/id/<meme_id>')
 @login_required
-def get_words():
+def get_words(meme_id):
     results = []
-    for word in Word.query.filter(Word.memes.any(id=2)):
+    for word in Word.query.filter(Word.memes.any(id=meme_id)):
         results.append({
             'id': word.id,
             'word': word.word,
@@ -198,6 +202,7 @@ def get_words():
     response = {
         'data': results
     }
+
     return jsonify(response), 200
 
 

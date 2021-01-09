@@ -47,8 +47,10 @@ const Search = () => {
     resultsEl = (<h2>Something bad happened. Try again.</h2>);
   }
 
+  const posFooter = error || loading || !results.length ? 'position-absolute' : '';
+
   return (
-    <Page>
+    <Page posFooter={posFooter}>
       <section className="masthead page-section portfolio">
         <div className="container">
           <div className="row">

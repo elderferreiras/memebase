@@ -7,7 +7,7 @@ const Page = (props) => {
     <div id="page-top">
       <Nav />
       {props.children}
-      <Footer />
+      <Footer pos={props.posFooter}/>
     </div>
   )
 };
